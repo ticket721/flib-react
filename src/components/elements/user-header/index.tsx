@@ -51,14 +51,14 @@ const Amount = styled.h4`
   }
 `
 
-export const WalletHeader: React.FunctionComponent<WalletHeaderProps> = (props: WalletHeaderProps): JSX.Element => {
+export const WalletHeader: React.FunctionComponent<WalletHeaderProps & {className?: string}> = (props: WalletHeaderProps): JSX.Element => {
   const fullName = `${props.user.firstName} ${props.user.lastName}`;
 
-  return <Container profileHeader={props.profileHeader}>
+  return <Container profileHeader={props.profileHeader} className={props.className}>
           <ImgContainer profileHeader={props.profileHeader}>
             <img src={props.user.profilePicture} alt={fullName}/>
           </ImgContainer>
-          <div>
+          <div className={props.className}>
             {props.profileHeader ? (
               <h1>{ fullName }</h1>
             ) : (
