@@ -24,10 +24,10 @@ const Container = styled.section<WalletHeaderProps>`
 `
 const ImgContainer = styled.div<WalletHeaderProps>`
   border-radius: 100%;
-  height:  ${props => props.profileHeader ? '80px' : '48px'};
+  height:  ${props => props.profileHeader ? '80px' : '40px'};
   margin-right: ${props => props.profileHeader ? 0 : props.theme.smallSpacing};
   overflow: hidden;
-  width:  ${props => props.profileHeader ? '80px' : '48px'};
+  width:  ${props => props.profileHeader ? '80px' : '40px'};
 
   img {
     height: 100%;
