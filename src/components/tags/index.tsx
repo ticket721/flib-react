@@ -116,7 +116,7 @@ export interface TagsProps extends React.ComponentProps<any> {
   value?:Array<object>;
   onInputChange: (inputValue: string) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLElement>, value: string ) => void;
-  onChange: (value: any) => void;
+  onChange: (value: any, action?: any) => void;
 }
 
 const StyledLabel = styled.label`
@@ -147,6 +147,15 @@ const Counter = styled.span`
   right: ${props => props.theme.biggerSpacing};
 `;
 
+const Error = styled.span`
+  bottom: -16px;
+  color: ${props => props.theme.warningColor};
+  font-size: 13px;
+  font-weight: 500;
+  left: 0;
+  position: relative;
+`;
+
 const StyledInputContainer = styled.div<TagsProps>`
   background-color: ${props => props.theme.componentColor};
   border-radius: ${props => props.theme.defaultRadius};
@@ -175,41 +184,41 @@ const StyledInputContainer = styled.div<TagsProps>`
 
 export const Tags: React.FunctionComponent<TagsProps> = (props: TagsProps): JSX.Element => {
   return  <StyledInputContainer>
-            <StyledLabel>{props.label}</StyledLabel>
+    <StyledLabel>{props.label}</StyledLabel>
 
-            { props.maxTags &&
-              <Counter>{props.currentTagsNumber}/{props.maxTags}</Counter>
-            }
+    { props.maxTags &&
+    <Counter>{props.currentTagsNumber}/{props.maxTags}</Counter>
+    }
 
-            <CreatableSelect
-              components={components}
-              onChange={e => {
-                props.onChange(e);
-              }}
-              onKeyDown={e => {
-                const target = e.target as HTMLInputElement;
-                props.onKeyDown(e, target.value)
-              }}
-              onInputChange={e => {
-                props.onInputChange(e);
-              }}
-              defaultValue={props.defaultValue}
-              inputValue={props.inputValue}
-              menuIsOpen={false}
-              isClearable={false}
-              isMulti
-              placeholder={props.placeholder}
-              styles={customStyles}
-              value={props.value}
-            />
-          </StyledInputContainer>
-
+    <CreatableSelect
+      components={components}
+      onChange={(newValue, actionMeta) => {
+        props.onChange(newValue, actionMeta);
+      }}
+      onKeyDown={e => {
+        const target = e.target as HTMLInputElement;
+        props.onKeyDown(e, target.value)
+      }}
+      onInputChange={e => {
+        props.onInputChange(e);
+      }}
+      defaultValue={props.defaultValue}
+      inputValue={props.inputValue}
+      menuIsOpen={false}
+      isClearable={true}
+      isMulti
+      placeholder={props.placeholder}
+      styles={customStyles}
+      value={props.value}
+    />
+    {props.error && <Error>{props.errormessage}</Error> }
+  </StyledInputContainer>
 }
 
 Tags.defaultProps = {
-  onKeyDown: () => {},
-  onInputChange: () => {},
-  onChange: () => {}
+  onKeyDown: (key, value) => {},
+  onChange: (value, action) => {},
+  onInputChange: (value) => {}
 };
 
 export default Tags;
