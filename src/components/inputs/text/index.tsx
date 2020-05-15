@@ -9,10 +9,10 @@ export interface InputProps extends React.ComponentProps<any> {
   errormessage?:string;
   label:string;
   name:string;
-  onChange: (eventOrPath: string | ChangeEvent<any>) => void | ((eventOrTextValue: string | ChangeEvent<any>) => void);
+  onChange?: (eventOrPath: string | ChangeEvent<any>) => void | ((eventOrTextValue: string | ChangeEvent<any>) => void);
   placeholder: string;
   options?: any;
-  value:string;
+  value?:string;
   className?: string;
   accept?: string;
 }
