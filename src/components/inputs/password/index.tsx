@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 import { Icon }                        from '../../icon';
 import { TextInput, InputProps } from '../text';
 
+export interface PasswordProps extends InputProps {
+    score?: number;
+}
+
 const PasswordInputContainer = styled.div`
     position: relative;
     display: flex;
@@ -16,7 +20,7 @@ const ShowHide = styled.div`
     right: 30px;
 `;
 
-export const PasswordInput: React.FunctionComponent<InputProps & {className?: string}> = (props: InputProps): JSX.Element => {
+export const PasswordInput: React.FunctionComponent<PasswordProps & {className?: string}> = (props: PasswordProps): JSX.Element => {
     const [ passwordState, setPasswordState ] = useState('password');
     const [ showPassword, setShowPassword ] = useState(false);
 
@@ -37,6 +41,9 @@ export const PasswordInput: React.FunctionComponent<InputProps & {className?: st
         className={props.className}
         type={passwordState}
         />
+        <Score score={props.score || 0}>
+            <Gauge/>
+        </Score>
         <ShowHide onClick={() => {
             setShowPassword(!showPassword);
             document.getElementById(props.name)?.focus();
@@ -48,5 +55,21 @@ export const PasswordInput: React.FunctionComponent<InputProps & {className?: st
         </ShowHide>
     </PasswordInputContainer>
 };
+
+const Score = styled.div<{ score: number }>`
+    height: 4px;
+    width: calc(25% * ${(props) => props.score});
+    bottom: 0;
+    position: absolute;
+    border-radius: 0 0 0 4px;
+    overflow: hidden;
+    transition: width 0.5s;
+`;
+
+const Gauge = styled.div`
+    background: linear-gradient(260deg, ${(props) => props.theme.primaryColor}, ${(props) => props.theme.primaryColorGradientEnd});
+    height: 100%;
+    width: 100%;
+`;
 
 export default TextInput;
